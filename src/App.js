@@ -9,14 +9,16 @@ class App extends Component {
     state = { loggedIn: null };
 
     componentWillMount() {
-        firebase.initializeApp({
-            apiKey: 'AIzaSyA-XJYcuz9Hx_v8dc2uoteIBoQIgRq5QLI',
-            authDomain: 'auth-5dcbb.firebaseapp.com',
-            databaseURL: 'https://auth-5dcbb.firebaseio.com',
-            projectId: 'auth-5dcbb',
-            storageBucket: 'auth-5dcbb.appspot.com',
-            messagingSenderId: '698048920293'
-        });
+        if (!firebase.apps.length) {
+            firebase.initializeApp({
+                apiKey: 'AIzaSyA-XJYcuz9Hx_v8dc2uoteIBoQIgRq5QLI',
+                authDomain: 'auth-5dcbb.firebaseapp.com',
+                databaseURL: 'https://auth-5dcbb.firebaseio.com',
+                projectId: 'auth-5dcbb',
+                storageBucket: 'auth-5dcbb.appspot.com',
+                messagingSenderId: '698048920293'
+            });
+        }
 
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
@@ -40,7 +42,6 @@ class App extends Component {
             default:
                 return <Spinner />;
         }
-
     }
 
     render() {
@@ -49,7 +50,8 @@ class App extends Component {
                 <Header
                     leftIcon={require('../images/menu.png')}
                     rightIcon={require('../images/menu.png')}
-                    headerTitle="Login Form" />
+                    headerTitle="Login Form" 
+                />
                 {this.renderContent()}
             </View>
         );
